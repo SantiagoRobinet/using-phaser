@@ -10,6 +10,6 @@ export class Game extends Phaser.Scene {
   }
 
   create() {
-    this.add.image(500, 250, 'background');
+    this.add.image(500, 300, 'background');
   }
 }
