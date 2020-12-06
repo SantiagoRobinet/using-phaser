@@ -10,7 +10,7 @@ export class Scoreboard {
   }
 
   createScoreBoard() {
-    this.scoreText = this.relatedScene.add.text(900, 16, 'Points: 0', this.fontStyle);
+    this.scoreText = this.relatedScene.add.text(880, 16, `POINTS: ${this.score}`, this.fontStyle);
   }
 
   incrementPoints(points) {
