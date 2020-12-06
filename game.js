@@ -1,5 +1,3 @@
-/* eslint-disable import/prefer-default-export */
-/* eslint-disable no-undef */
 export class Game extends Phaser.Scene {
   constructor() {
     super({ key: 'game' });
@@ -13,6 +11,8 @@ export class Game extends Phaser.Scene {
   }
 
   create() {
+    this.physics.world.setBoundsCollision(true, true, true, false);
+
     this.add.image(500, 300, 'background');
     this.gameOverImage = this.add.image(500, 180, 'gameover');
     this.gameOverImage.visible = false;
@@ -20,10 +20,12 @@ export class Game extends Phaser.Scene {
     this.platform = this.physics.add.image(500, 550, 'platform').setImmovable();
     this.platform.body.allowGravity = false;
     this.platform.setScale(0.2, 0.1);
-    this.platform.setSize(900, 80);
+    this.platform.setSize(850, 80);
+    this.platform.setCollideWorldBounds(true);
 
     this.ball = this.physics.add.image(500, 80, 'ball');
     this.ball.setScale(0.1, 0.1);
+    this.ball.setCollideWorldBounds(true);
 
     let velocity = 100 * Phaser.Math.Between(1, 2);
     if (Phaser.Math.Between(0, 10) > 5) {
@@ -34,7 +36,7 @@ export class Game extends Phaser.Scene {
 
     this.physics.add.collider(this.ball, this.platform);
 
-    this.ball.setBounce(0.4);
+    this.ball.setBounce(1);
 
     this.cursors = this.input.keyboard.createCursorKeys();
   }
@@ -46,6 +48,12 @@ export class Game extends Phaser.Scene {
       this.platform.setVelocityX(300);
     } else {
       this.platform.setVelocityX(0);
+    }
+
+    if (this.ball.y > 600) {
+      console.log('fin');
+      this.gameOverImage.visible = true;
+      this.scene.pause();
     }
   }
 }
