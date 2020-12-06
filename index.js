@@ -1,10 +1,9 @@
-import { Game } from 'game.js';
-import Phaser from 'phaser';
+import { Game } from './game.js';
 
 const config = {
   type: Phaser.AUTO,
-  width: 800,
-  heigth: 600,
+  width: 1000,
+  heigth: 1000,
   scene: [Game],
   physics: {
     default: 'arcade',

@@ -1,5 +1,4 @@
 /* eslint-disable import/prefer-default-export */
-import Phaser from 'phaser';
 
 export class Game extends Phaser.Scene {
   constructor() {
@@ -11,6 +10,6 @@ export class Game extends Phaser.Scene {
   }
 
   create() {
-
+    this.add.image(500, 250, 'background');
   }
 }
