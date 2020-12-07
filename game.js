@@ -1,4 +1,6 @@
+/* eslint-disable max-len */
 import { Scoreboard } from './components/Scoreboard.js';
+import { Platform } from './components/Platform.js';
 
 export class Game extends Phaser.Scene {
   constructor() {
@@ -7,6 +9,7 @@ export class Game extends Phaser.Scene {
 
   init() {
     this.scoreboard = new Scoreboard(this);
+    this.platform = new Platform(this);
   }
 
   preload() {
@@ -24,12 +27,7 @@ export class Game extends Phaser.Scene {
     this.gameOverImage.visible = false;
 
     this.scoreboard.createScoreBoard();
-
-    this.platform = this.physics.add.image(500, 550, 'platform').setImmovable();
-    this.platform.body.allowGravity = false;
-    this.platform.setScale(0.2, 0.1);
-    this.platform.setSize(850, 80);
-    this.platform.setCollideWorldBounds(true);
+    this.platform.declarePlatform();
 
     this.ball = this.physics.add.image(500, 80, 'ball');
     this.ball.setScale(0.1, 0.1);
@@ -39,10 +37,10 @@ export class Game extends Phaser.Scene {
     if (Phaser.Math.Between(0, 10) > 5) {
       velocity = 0 - velocity;
     }
-
+    debugger;
     this.ball.setVelocity(velocity, 10);
 
-    this.physics.add.collider(this.ball, this.platform, this.platformImpact.bind(this), null);
+    this.physics.add.collider(this.ball, this.platform.platform, this.platformImpact.bind(this), null);
 
     this.ball.setBounce(1);
 
@@ -50,13 +48,7 @@ export class Game extends Phaser.Scene {
   }
 
   update() {
-    if (this.cursors.left.isDown) {
-      this.platform.setVelocityX(-300);
-    } else if (this.cursors.right.isDown) {
-      this.platform.setVelocityX(300);
-    } else {
-      this.platform.setVelocityX(0);
-    }
+    this.platform.platformMovement();
 
     if (this.ball.y > 600) {
       this.gameOverImage.visible = true;
