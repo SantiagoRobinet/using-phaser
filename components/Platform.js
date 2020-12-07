@@ -3,7 +3,7 @@ export class Platform {
     this.relatedScene = scene;
   }
 
-  declarePlatform() {
+  createPlatform() {
     this.platform = this.relatedScene.physics.add.image(500, 550, 'platform').setImmovable();
     this.platform.body.allowGravity = false;
     this.platform.setScale(0.2, 0.1);

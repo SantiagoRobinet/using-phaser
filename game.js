@@ -1,6 +1,7 @@
 /* eslint-disable max-len */
 import { Scoreboard } from './components/Scoreboard.js';
 import { Platform } from './components/Platform.js';
+import { Ball } from './components/Ball.js';
 
 export class Game extends Phaser.Scene {
   constructor() {
@@ -10,6 +11,7 @@ export class Game extends Phaser.Scene {
   init() {
     this.scoreboard = new Scoreboard(this);
     this.platform = new Platform(this);
+    this.ball = new Ball(this);
   }
 
   preload() {
@@ -27,22 +29,11 @@ export class Game extends Phaser.Scene {
     this.gameOverImage.visible = false;
 
     this.scoreboard.createScoreBoard();
-    this.platform.declarePlatform();
+    this.platform.createPlatform();
+    this.ball.createBall();
+    this.ball.setBallVelocity();
 
-    this.ball = this.physics.add.image(500, 80, 'ball');
-    this.ball.setScale(0.1, 0.1);
-    this.ball.setCollideWorldBounds(true);
-
-    let velocity = 100 * Phaser.Math.Between(1, 2);
-    if (Phaser.Math.Between(0, 10) > 5) {
-      velocity = 0 - velocity;
-    }
-    debugger;
-    this.ball.setVelocity(velocity, 10);
-
-    this.physics.add.collider(this.ball, this.platform.platform, this.platformImpact.bind(this), null);
-
-    this.ball.setBounce(1);
+    this.physics.add.collider(this.ball.ball, this.platform.platform, this.platformImpact.bind(this), null);
 
     this.cursors = this.input.keyboard.createCursorKeys();
   }
@@ -50,7 +41,7 @@ export class Game extends Phaser.Scene {
   update() {
     this.platform.platformMovement();
 
-    if (this.ball.y > 600) {
+    if (this.ball.ball.y > 600) {
       this.gameOverImage.visible = true;
       this.scene.pause();
     }
